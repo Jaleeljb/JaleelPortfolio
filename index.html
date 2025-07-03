@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        html {
+            overflow-x: hidden;
+        }
+        
+        body {
+            background-color: white;
+            color: var(--dark);
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Navbar styles */
+        .navbar {
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            bottom: -2px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero section */
+        .hero {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .hero-image {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        /* Section animations */
+        section {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+        
+        section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Experience timeline */
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 25px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -50px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            border: 3px solid white;
+        }
+        
+        /* Skill bars */
+        .skill-bar {
+            height: 10px;
+            background-color: #e5e7eb;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transition: width 1.5s ease;
+        }
+        
+        /* Certifications */
+        .cert-card {
+            transition: all 0.3s ease;
+        }
+        
+        .cert-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Contact form */
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 10px;
+            }
+            
+            .timeline-item::before {
+                left: -35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar fixed w-full z-50 py-4 px-6 md:px-12">
+        <div class="flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-indigo-600">Portfolio</a>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link text-gray-700 hover:text-indigo-600">Home</a>
+                <a href="#experience" class="nav-link text-gray-700 hover:text-indigo-600">Experience</a>
+                <a href="#skills" class="nav-link text-gray-700 hover:text-indigo-600">Skills</a>
+                <a href="#certifications" class="nav-link text-gray-700 hover:text-indigo-600">Certifications</a>
+                <a href="#education" class="nav-link text-gray-700 hover:text-indigo-600">Education</a>
+                <a href="#about" class="nav-link text-gray-700 hover:text-indigo-600">About</a>
+            </div>
+            
+            <button class="md:hidden focus:outline-none">
+                <i class="fas fa-bars text-2xl text-gray-700"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div class="mobile-menu hidden md:hidden mt-4">
+            <div class="flex flex-col space-y-3">
+                <a href="#home" class="text-gray-700 hover:text-indigo-600">Home</a>
+                <a href="#experience" class="text-gray-700 hover:text-indigo-600">Experience</a>
+                <a href="#skills" class="text-gray-700 hover:text-indigo-600">Skills</a>
+                <a href="#certifications" class="text-gray-700 hover:text-indigo-600">Certifications</a>
+                <a href="#education" class="text-gray-700 hover:text-indigo-600">Education</a>
+                <a href="#about" class="text-gray-700 hover:text-indigo-600">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero min-h-screen flex items-center pt-16 pb-10 px-6 md:px-12">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-5xl md:text-6xl font-bold mb-4 text-gray-800">Hi, I'm <span class="text-indigo-600">Jaleel Basha</span></h1>
+                <h2 class="text-2xl md:text-3xl mb-6 text-gray-600">Automation Tester</h2>
+                <p class="text-gray-600 mb-8 text-lg">IIT graduate with a passion for breaking bugs before users do! Skilled in Selenium & Java, I turn test cases into bulletproof automation scripts. Hungry to dive into real-world challenges and raise the quality bar from day one!</p>
+                <div class="flex space-x-4">
+                    <a href="#contact" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300">Contact Me</a>
+                    <a href="#projects" class="border-2 border-indigo-600 text-indigo-600 px-6 py-3 rounded-lg hover:bg-indigo-50 transition duration-300">My Work</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="hero-image w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden shadow-2xl">
+                    <img src="White.png" alt="Profile">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 px-6 md:px-12 bg-gray-50">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">My <span class="text-indigo-600">Experience</span></h2>
+            
+            <div class="timeline max-w-3xl mx-auto">
+                <div class="timeline-item bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-800">Senior Developer</h3>
+                    <h4 class="text-md font-semibold text-indigo-600">Tech Solutions Inc. • 2021 - Present</h4>
+                    <p class="text-gray-600 mt-2">Led a team of developers to create scalable web applications using React, Node.js, and MongoDB. Implemented CI/CD pipelines reducing deployment time by 60%.</p>
+                </div>
+                
+                <div class="timeline-item bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-800">Frontend Developer</h3>
+                    <h4 class="text-md font-semibold text-indigo-600">Digital Agency • 2018 - 2021</h4>
+                    <p class="text-gray-600 mt-2">Developed responsive websites and web applications for clients across various industries. Collaborated with designers to implement pixel-perfect UIs.</p>
+                </div>
+                
+                <div class="timeline-item bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-800">Junior Developer</h3>
+                    <h4 class="text-md font-semibold text-indigo-600">Startup Labs • 2016 - 2018</h4>
+                    <p class="text-gray-600 mt-2">Worked on maintaining legacy codebases and implementing new features. Learned agile development methodologies and modern JavaScript frameworks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 px-6 md:px-12">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">My <span class="text-indigo-600">Skills</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Technical Skills -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-gray-800">Technical Skills</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">JavaScript</span>
+                                <span class="text-gray-600">95%</span>
+                            </div>
+                            <div class="skill-bar rounded">
+                                <div class="skill-progress rounded" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">React</span>
+                                <span class="text-gray-600">90%</span>
+                            </div>
+                            <div class="skill-bar rounded">
+                                <div class="skill-progress rounded" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">Node.js</span>
+                                <span class="text-gray-600">85%</span>
+                            </div>
+                            <div class="skill-bar rounded">
+                                <div class="skill-progress rounded" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Professional Skills -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-6 text-gray-800">Professional Skills</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">Team Leadership</span>
+                                <span class="text-gray-600">90%</span>
+                            </div>
+                            <div class="skill-bar rounded">
+                                <div class="skill-progress rounded" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">Problem Solving</span>
+                                <span class="text-gray-600">95%</span>
+                            </div>
+                            <div class="skill-bar rounded">
+                                <div class="skill-progress rounded" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">Communication</span>
+                                <span class="text-gray-600">85%</span>
+                            </div>
+                            <div class="skill-bar rounded">
+                                <div class="skill-progress rounded" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="py-20 px-6 md:px-12 bg-gray-50">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">My <span class="text-indigo-600">Certifications</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cert Card 1 -->
+                <div class="cert-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300">
+                    <div class="cert-image">
+                        <img src="Pre Security.png" alt="pre-security" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Pre Security</h3>
+                        <p class="text-gray-600 mb-4">TryHackMe • 2023</p>
+                        <p class="text-gray-700">Demonstrated ability to protect and maintain applications using security protocols</p>
+                    </div>
+                </div>
+                
+                <!-- Cert Card 2 -->
+                <div class="cert-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300">
+                    <div class="cert-image">
+                        <img src="Red Teaming.png" alt="red-teaming" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Red Teaming</h3>
+                        <p class="text-gray-600 mb-4">TryHackMe • 2023</p>
+                        <p class="text-gray-700">Mastered advanced React patterns and performance optimization techniques.</p>
+                    </div>
+                </div>
+                
+                <!-- Cert Card 3 -->
+                <div class="cert-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300">
+                    <div class="cert-image">
+                        <img src="Web Fundamentals.png" alt="web-fundamentals" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Web Fundamentals</h3>
+                        <p class="text-gray-600 mb-4">TryHackMe • 2023</p>
+                        <p class="text-gray-700">Proficiency in designing data processing systems on Google Cloud Platform.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-20 px-6 md:px-12">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">My <span class="text-indigo-600">Education</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Education 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-indigo-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-graduation-cap text-indigo-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800">Bachelor of Information Technology</h3>
+                            <p class="text-indigo-600 font-semibold">Tirumala Engineering College</p>
+                            <p>2019 - 2023</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">Specialized in Artificial Intelligence and Cloud Computing. Thesis on "Optimizing Neural Networks for Edge Devices".</p>
+                </div>
+                
+                <!-- Education 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-start mb-4">
+                        <div class="bg-indigo-100 p-3 rounded-lg mr-4">
+                            <i class="fas fa-book-open text-indigo-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800">Intermediate in MPC</h3>
+                            <p class="text-indigo-600 font-semibold">Sri Chaitanya Junior College</p>
+                            <p>2017 - 2019</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">Major in Computer Science with minor in Mathematics. GPA: 3.8/4.0. Dean's List all semesters.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6 md:px-12 bg-gray-50">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">About <span class="text-indigo-600">Me</span></h2>
+            
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/3 mb-8 md:mb-0">
+                    <div class="w-64 h-64 rounded-full overflow-hidden shadow-xl mx-auto">
+                        <img src="White.png" alt="about-section" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <div class="md:w-2/3">
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        I'm a passionate full-stack developer with over 7 years of experience building web applications. My journey in tech started when I wrote my first line of HTML at age 12, and I've been hooked ever since.
+                    </p>
+                    
+                    <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                        When I'm not coding, you can find me hiking in the mountains, reading sci-fi novels, or experimenting with new recipes in the kitchen. I'm a firm believer that great software, like great food, requires both precision and creativity.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 mt-6">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-indigo-600 mr-2"></i>
+                            <span class="text-gray-700">Andhra Pradesh, India</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-indigo-600 mr-2"></i>
+                            <span class="text-gray-700">jaleel2jb@gmail.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-indigo-600 mr-2"></i>
+                            <span class="text-gray-700">+91 6302229575</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4 mt-8">
+                        <a href="#" class="social-icon w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 hover:bg-indigo-600 hover:text-white transition duration-300">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-icon w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 hover:bg-indigo-600 hover:text-white transition duration-300">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-icon w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 hover:bg-indigo-600 hover:text-white transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 hover:bg-indigo-600 hover:text-white transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6 md:px-12">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-4xl font-bold text-center mb-16 text-gray-800">Get In <span class="text-indigo-600">Touch</span></h2>
+            
+            <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <div class="bg-indigo-600 text-white p-8 md:p-12">
+                        <h3 class="text-2xl font-bold mb-6">Let's Talk</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="bg-white bg-opacity-20 p-3 rounded-lg mr-4">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Address</h4>
+                                    <p>Andhra Pradesh, India</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-white bg-opacity-20 p-3 rounded-lg mr-4">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Email</h4>
+                                    <p>jaleel2jb@gmail.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-white bg-opacity-20 p-3 rounded-lg mr-4">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">Phone</h4>
+                                    <p>+91 6302229575</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h4 class="font-bold mb-4">Follow Me</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="social-icon w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-opacity-30 transition duration-300">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="social-icon w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-opacity-30 transition duration-300">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="social-icon w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center hover:bg-opacity-30 transition duration-300">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-8 md:p-12">
+                        <form id="contactForm" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-gray-700 font-medium mb-2">Name</label>
+                                <input type="text" id="name" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                                <input type="email" id="email" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600">
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block text-gray-700 font-medium mb-2">Subject</label>
+                                <input type="text" id="subject" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600">
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-gray-700 font-medium mb-2">Message</label>
+                                <textarea id="message" rows="4" class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-300">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-6">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="text-2xl font-bold text-white">Jaleel</a>
+                    <p class="text-gray-400 mt-2">Full Stack Developer</p>
+                </div>
+                
+                <div class="flex flex-col md:flex-row md:space-x-12 space-y-4 md:space-y-0">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#home" class="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+                            <li><a href="#experience" class="text-gray-400 hover:text-white transition duration-300">Experience</a></li>
+                            <li><a href="#skills" class="text-gray-400 hover:text-white transition duration-300">Skills</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">More</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#certifications" class="text-gray-400 hover:text-white transition duration-300">Certifications</a></li>
+                            <li><a href="#education" class="text-gray-400 hover:text-white transition duration-300">Education</a></li>
+                            <li><a href="#about" class="text-gray-400 hover:text-white transition duration-300">About</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">Connect</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="social-icon w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-indigo-600 transition duration-300">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="social-icon w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-indigo-600 transition duration-300">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="social-icon w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-indigo-600 transition duration-300">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Jaleel.Co All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="fixed bottom-8 right-8 bg-indigo-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 transition duration-300 hidden">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('button.md\\:hidden');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Scroll to section with offset for navbar
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - navbarHeight,
+                    behavior: 'smooth'
+                });
+                
+                // Hide mobile menu if open
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Intersection Observer for section animations
+        const sections = document.querySelectorAll('section');
+        const observerOptions = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, observerOptions);
+        
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Back to top button
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('hidden');
+            } else {
+                backToTopBtn.classList.add('hidden');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Animate skill bars when they come into view
+        const skillBars = document.querySelectorAll('.skill-progress');
+        
+        const skillObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const width = entry.target.style.width;
+                    entry.target.style.width = '0';
+                    
+                    // Force reflow hack
+                    void entry.target.offsetWidth;
+                    
+                    entry.target.style.width = width;
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        skillBars.forEach(bar => {
+            skillObserver.observe(bar);
+        });
+        
+        // Form submission handler
+        const contactForm = document.getElementById('contactForm');
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Here you would typically send the form data to a server
+            console.log('Form submitted:', formData);
+            
+            // Show success message
+            alert('Thank you for your message! I will get back to you soon.');
+            
+            // Reset form
+            contactForm.reset();
+        });
+    </script>
+</body>
+</html>
