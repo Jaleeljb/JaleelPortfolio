@@ -7,7 +7,7 @@
     <link rel="icon" href="White.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
         
@@ -170,19 +170,12 @@
             }
         }
     </style>
-    <script>
-    (function() {
-        emailjs.init({
-            publicKey: "07uy-pA5zL3Qw-aH8" // Replace with your EmailJS Public Key
-        });
-        })();
-</script>
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar fixed w-full z-50 py-4 px-6 md:px-12">
         <div class="flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-indigo-600">Portfolio</a>
+            <a href="https://jaleel-portfolio-liart.vercel.app/?" class="text-2xl font-bold text-indigo-600">Portfolio</a>
             
             <div class="hidden md:flex space-x-8">
                 <a href="#home" class="nav-link text-gray-700 hover:text-indigo-600">Home</a>
@@ -586,8 +579,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-8 md:p-12">
-                        <form id="contactForm" class="space-y-6">
+                   <div class="p-8 md:p-12">
+    <form id="contactForm" class="space-y-6">
         <div>
             <label for="name" class="block text-gray-700 font-medium mb-2">Name</label>
             <input type="text" id="name" name="name" required class="form-input w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600">
@@ -738,38 +731,46 @@
         skillBars.forEach(bar => {
             skillObserver.observe(bar);
         });
+
         document.getElementById("contactForm").addEventListener("submit", function(event) {
-            event.preventDefault(); 
-            let sendBtn = document.getElementById("sendBtn");
-            let btnText = document.getElementById("btnText");
-            let spinner = document.getElementById("spinner");
-            
-            btnText.textContent = "Sending...";
-            spinner.classList.remove("hidden");
-            sendBtn.disabled = true;
-            
-            let parms = {
-                name: document.getElementById("name").value,
-                email: document.getElementById("email").value,
-                subject: document.getElementById("subject").value,
-                message: document.getElementById("message").value,
-            };
-            
-            emailjs.send("service_muto7fh", "template_03zbn9t", parms)
-            .then(function() {
-            alert("✅ Thank you for your message! I will get back to you soon.");
-            document.getElementById("contactForm").reset();
-        })
-        .catch(function(error) {
-            console.error("EmailJS Error:", error);
-            alert("❌ Oops! Something went wrong. Please try again later.");
-        })
-        .finally(function() {
-            // Reset button state
-            btnText.textContent = "Send Message";
-            spinner.classList.add("hidden");
-            sendBtn.disabled = false;
-        });
+    event.preventDefault(); 
+
+    let sendBtn = document.getElementById("sendBtn");
+    let btnText = document.getElementById("btnText");
+    let spinner = document.getElementById("spinner");
+
+    btnText.textContent = "Sending...";
+    spinner.classList.remove("hidden");
+    sendBtn.disabled = true;
+
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let subject = document.getElementById("subject").value;
+    let message = document.getElementById("message").value;
+
+    Email.send({
+        Host : "smtp.gmail.com",
+        Username : "jaleel6jb@gmail.com",
+        Password : "Mastanvali786@",
+        To : 'jaleel6jb@gmail.com',
+        From : email,
+        Subject : subject,
+        Body : `
+            <b>Name:</b> ${name} <br>
+            <b>Email:</b> ${email} <br>
+            <b>Message:</b> <br>${message}
+        `
+    }).then(response => {
+        alert("✅ Thank you for your message! I will get back to you soon.");
+        document.getElementById("contactForm").reset();
+    }).catch(error => {
+        console.error("SMTP.js Error:", error);
+        alert("❌ Oops! Something went wrong. Please try again later.");
+    }).finally(() => {
+        btnText.textContent = "Send Message";
+        spinner.classList.add("hidden");
+        sendBtn.disabled = false;
+    });
 });
     </script>
 </body>
